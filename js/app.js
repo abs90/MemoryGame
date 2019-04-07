@@ -132,17 +132,21 @@ function incrementMoves() {
 const star = "<i class='fa fa-star'></i>";
 const star2 = "<i class='fa fa-star'></i><i class='fa fa-star'></i>"
 const star3 = "<i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i>";
-const starsCntr = document.querySelectorAll(".stars");
+const starsCntr = document.querySelector(".stars");
 
 function starsCntrRating() {
     // if the moves number is between 12 and 15
     if (moves < 13) {
       //if below 13 moves then get 3 stars
       ratingHTML = star3;
-    } else if (moves < 20) {
+    } else if (moves < 23) {
+      //set modal counter to 2 stars
       ratingHTML = star2;
-    } else {
+      //Set counter not in modal to 2 stars
+      starsCntr.innerHTML = star2;
+    } else  {
       ratingHTML = star;
+      starsCntr.innerHTML = star;
     }
 }
 
@@ -206,8 +210,8 @@ function reset() {
 
   movesCntr.innerHTML = moves;
 
-  //Reset star rating
-  starsCntr.innerHTML = ratingHTML;
+  //Reset star rating to 3
+  starsCntr.innerHTML = star3;
 
   //Reset Timer
   /*Stop the timer, then reset the variable chkFirstClick to true*/
