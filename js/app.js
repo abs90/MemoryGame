@@ -11,13 +11,19 @@ const cardCntr = document.querySelector(".deck");
 // Modal - to display win popup
 const modal = document.querySelector('.modal');
 const timeModal = document.querySelector('.time-modal');
+const rateModal = document.querySelector('.rate-modal');
 const movesModal = document.querySelector('.moves-modal');
 const rstModal = document.querySelector('.rst-modal');
+
 
 //Array for opened cards
 let openCards = [];
 //Array for matched cards
 let matchedCards = [];
+
+let ratingHTML = "";
+
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -109,13 +115,47 @@ function compare(clickedCard, firstCard) {
 
 }
 
+
+/**allow moves to be added**/
+const movesCntr = document.querySelector(".moves");
+let moves = 0;
+movesCntr.innerHTML = 0;
+
+function incrementMoves() {
+  moves++;
+  movesCntr.innerHTML = moves;
+  //Star ratings
+  starsCntrRating();
+}
+
+/***Rating for the game ***/
+const star = "<i class='fa fa-star'></i>";
+const star2 = "<i class='fa fa-star'></i><i class='fa fa-star'></i>"
+const star3 = "<i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i>";
+const starsCntr = document.querySelectorAll(".stars");
+
+function starsCntrRating() {
+    // if the moves number is between 12 and 15
+    if (moves < 13) {
+      //if below 13 moves then get 3 stars
+      ratingHTML = star3;
+    } else if (moves < 20) {
+      ratingHTML = star2;
+    } else {
+      ratingHTML = star;
+    }
+}
+
 /*Checks if game is over*/
 function allMatched() {
   if(matchedCards.length === cardIcons.length) {
     //Stop timer
     timerStop();
     timeModal.innerText = timerCntr.innerText;
+    //Incerement final moves by 1 as it display -1 in Modal
+    movesCntr.innerHTML = moves + 1;
     movesModal.innerHTML = movesCntr.innerText;
+    rateModal.innerHTML = ratingHTML;
     modal.style.display = "block";
   }
 }
@@ -128,35 +168,6 @@ rstModal.addEventListener("click",  function() {
   init();
   reset();
 });
-
-
-
-/**allow moves to be added**/
-const movesCntr = document.querySelector(".moves");
-let moves = 0;
-movesCntr.innerHTML = 0;
-function incrementMoves() {
-  moves++;
-  movesCntr.innerHTML = moves;
-  //Star ratings
-  starsCntrRating();
-}
-
-/***Rating for the game ***/
-const star = `<li><i class="fa fa-star"></i></li>`;
-const starsCntr = document.querySelector(".stars");
-starsCntr.innerHTML = star + star + star;
-function starsCntrRating() {
-    // if the moves number is between 12 and 15
-    if (moves < 13) {
-      //if below 13 moves then get 3 stars
-      starsCntr.innerHTML = star + star + star;
-    } else if (moves < 18) {
-      starsCntr.innerHTML = star + star;
-    } else {
-      starsCntr.innerHTML = star;
-    }
-}
 
 //Timer vairables
 const timerCntr = document.querySelector(".timer");
@@ -191,10 +202,12 @@ function reset() {
 
   //Reset Moves
   moves = 0;
+  let ratingHTML = "";
+
   movesCntr.innerHTML = moves;
 
   //Reset star rating
-  starsCntr.innerHTML = star + star + star;
+  starsCntr.innerHTML = ratingHTML;
 
   //Reset Timer
   /*Stop the timer, then reset the variable chkFirstClick to true*/
