@@ -201,6 +201,10 @@ rstrBtn.addEventListener("click", function() {
 });
 
 function reset() {
+
+  //Clear open cards
+  openCards = []
+
   //Empty the deck
   matchedCards = [];
 
